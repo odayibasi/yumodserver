@@ -41,7 +41,7 @@ const checkJwt = jwt({
 // MEDIUM CONNECT
 //================================================================================
 app.post('/api/mediumconnects/', checkJwt, jwtAuthz(['create:mediumconnects']), function(req, res) {
-    mediumAccountAPI.checkAccountFindAllMediumPostCreateStoryModelAndSaveS3(req,res);
+    mediumAccountAPI.checkAccountFindAllMediumPostCreateStoryModelAndSaveS3(req, res);
 });
 
 
@@ -70,4 +70,4 @@ app.get('/api/private', checkJwt, jwtAuthz(['write:storyman']), function(req, re
 
 var port = process.env.PORT || 3010
 app.listen(port);
-console.log('Listening on http://localhost:3010');
+console.log('Listening on http://localhost:' + port);
