@@ -9,6 +9,7 @@ const request = require("request");
 
 //API
 const mediumAccountAPI = require('./api/api_medium');
+const folderAPI = require('./api/api_folder');
 
 
 require('dotenv').config();
@@ -16,10 +17,11 @@ require('dotenv').config();
 
 app.use(cors());
 // Enable the use of request body parsing middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+
+
 
 const checkJwt = jwt({
     // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
@@ -43,6 +45,23 @@ const checkJwt = jwt({
 app.post('/api/mediumconnects/', checkJwt, jwtAuthz(['create:mediumconnects']), function(req, res) {
     mediumAccountAPI.checkAccountFindAllMediumPostCreateStoryModelAndSaveS3(req, res);
 });
+
+
+//===============================================================================
+// FOLDER MODEL UPDATE
+//================================================================================
+app.post('/api/foldermodel/', checkJwt, jwtAuthz(['save:foldermodel']), function(req, res) {
+    folderAPI.saveFolderModel(req, res);
+});
+
+app.get('/api/foldermodel/', checkJwt, jwtAuthz(['read:foldermodel']), function(req, res) {
+    folderAPI.loadFolderModel(req, res);
+});
+
+app.post('/api/dashboard/', checkJwt, jwtAuthz(['share:foldermodel']), function(req, res) {
+    folderAPI.shareFolderModel(req, res);
+});
+
 
 
 

@@ -20,7 +20,9 @@
     "express-jwt-authz": "^1.0.0",
     "http": "0.0.0",
     "jwks-rsa": "^1.1.1",
+    "node-uuid": "^1.4.8",
     "request": "^2.83.0",
-    "s3fs": "^2.5.0"
+    "s3fs": "^2.5.0",
+    "shorthash": "0.0.2"
   }
 }
