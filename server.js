@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const request = require("request");
 
 //API
+const auth0RoleAPI = require('./api/api_auth0role');
 const mediumAccountAPI = require('./api/api_medium');
 const folderAPI = require('./api/api_folder');
 
@@ -37,6 +38,27 @@ const checkJwt = jwt({
     issuer: 'https://odayibasi.auth0.com/',
     algorithms: ['RS256']
 });
+
+
+
+
+//===============================================================================
+// ROLES PUBLIC...
+//================================================================================
+app.patch('/api/user/role', checkJwt, jwtAuthz([]), function(req, res) {
+    auth0RoleAPI.addRoleToUser(req, res);
+});
+
+app.delete('/api/user/role', checkJwt, jwtAuthz([]), function(req, res) {
+    auth0RoleAPI.delRoleFromUser(req, res);
+});
+
+
+app.post('/api/usersettings/', checkJwt, jwtAuthz([]), function(req, res) {
+    auth0RoleAPI.checkUserSettingsIfNotExistSetRoleAndCreateSettingsSaveS3(req, res);
+});
+
+
 
 
 //===============================================================================

@@ -1,5 +1,4 @@
 const request = require("request");
-const uuidGenerator = require('node-uuid');
 
 var S3FS = require('s3fs');
 var s3Options = { region: 'us-west-1' };
@@ -110,7 +109,7 @@ function refreshStoryModel(postModel) {
                     var d = new Date(parseInt(pItem.latestPublishedAt)); // The 0 there is the key, which sets the date to the epoch
                     var sPublishedDate = d.toISOString().replace('-', '/').split('T')[0].replace('-', '/');
                     var sTotalClaps = pItem.virtuals.totalClapCount;
-                    postModel.newStories.push({ sTitle: pItem.title, sUrl: sUrl, sPublishedDate: sPublishedDate, uuid: uuidGenerator.v1(), sTotalClaps: sTotalClaps });
+                    postModel.newStories.push({ sTitle: pItem.title, sUrl: sUrl, sPublishedDate: sPublishedDate, uuid: sUrl, sTotalClaps: sTotalClaps });
                 }
                 findAllMediumPostAndFillModel(postModel);
             }
@@ -197,7 +196,7 @@ function findAllMediumPostAndFillModel(postModel) {
                     }
 
                     if (existStoryIndex === -1) { //Not Exist In StoryModel
-                        stories.push({ sTitle: pItem.title, sUrl: sUrl, sPublishedDate: sPublishedDate, uuid: uuidGenerator.v1(), sTotalClaps: sTotalClaps });
+                        stories.push({ sTitle: pItem.title, sUrl: sUrl, sPublishedDate: sPublishedDate, uuid: sUrl, sTotalClaps: sTotalClaps });
                     } else {
                         var story = stories[existStoryIndex];
                         story.sTitle = pItem.title;
