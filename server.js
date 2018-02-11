@@ -11,6 +11,7 @@ const request = require("request");
 const auth0RoleAPI = require('./api/api_auth0role');
 const mediumAccountAPI = require('./api/api_medium');
 const folderAPI = require('./api/api_folder');
+const statsAPI = require("./api/api_stats");
 
 
 require('dotenv').config();
@@ -41,6 +42,8 @@ const checkJwt = jwt({
 
 
 
+
+
 //===============================================================================
 // ROLES PUBLIC...
 //================================================================================
@@ -55,6 +58,14 @@ const checkJwt = jwt({
 
 app.post('/api/usersettings/', checkJwt, jwtAuthz([]), function(req, res) {
     auth0RoleAPI.checkUserSettingsIfNotExistSetRoleAndCreateSettingsSaveS3(req, res);
+});
+
+
+//===============================================================================
+// CRM DASHBOARD 
+//================================================================================
+app.get('/api/stats', checkJwt, jwtAuthz(['read:stats']), function(req, res) {
+    statsAPI.getStats(req, res);
 });
 
 
